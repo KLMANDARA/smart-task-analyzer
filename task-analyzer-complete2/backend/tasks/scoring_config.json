@@ -1,0 +1,28 @@
+{
+  "weights": {
+    "smart_balance": {
+      "urgency": 0.35,
+      "importance": 0.35,
+      "effort": 0.15,
+      "dependency": 0.15
+    },
+    "fastest_wins": {
+      "urgency": 0.1,
+      "importance": 0.2,
+      "effort": 0.6,
+      "dependency": 0.1
+    },
+    "high_impact": {
+      "urgency": 0.1,
+      "importance": 0.7,
+      "effort": 0.1,
+      "dependency": 0.1
+    },
+    "deadline_driven": {
+      "urgency": 0.6,
+      "importance": 0.2,
+      "effort": 0.1,
+      "dependency": 0.1
+    }
+  }
+}
