@@ -4,42 +4,25 @@ Author: K L MANDARA
 
 📧 Email: klmandara@gmail.com
 
-1. Introduction
-
-This project is developed as part of the Software Development Intern Assignment for Singularium Technologies Pvt. Ltd.
-
-The goal is to build a small application that can score, sort, and prioritize tasks based on multiple factors such as urgency, importance, effort, and dependencies.
-The project includes:
-
-Django backend
-
-HTML/CSS/JavaScript frontend
-
-Priority scoring algorithm
-
-Additional problem-solving features requested in the assignment
-
-2. How to Run the Project
-Backend Setup
-
-Create a virtual environment:
-
+Smart Task Analyzer
+1. Setup Instructions
+Backend (Django)
 python -m venv venv
 
 
-Activate it:
+Activate the environment:
 
 Windows
 
 venv\Scripts\activate
 
 
-Linux/macOS
+macOS/Linux
 
 source venv/bin/activate
 
 
-Install the required packages:
+Install dependencies:
 
 pip install -r requirements.txt
 
@@ -50,7 +33,7 @@ cd backend
 python manage.py migrate
 
 
-Start the server:
+Start server:
 
 python manage.py runserver
 
@@ -60,97 +43,76 @@ Open:
 
 frontend/index.html
 
+2. Algorithm Explanation (300–500 words)
 
-in your web browser.
+The Smart Task Analyzer generates a priority score for each task by considering urgency, importance, effort, and dependencies. These factors help identify which tasks are more critical and should be completed earlier.
 
-3. How the Algorithm Works (Summary)
+Urgency is determined from the task’s due date. Tasks closer to the deadline receive higher urgency, and tasks already overdue receive an additional boost. Deadlines falling on weekends or predefined holidays are treated as slightly more urgent since these days often limit available working hours.
 
-The scoring algorithm considers four main factors:
+Importance uses the user-provided rating on a scale of 1–10. Higher values indicate tasks that should have a stronger influence on the final ranking.
 
-Urgency
+Effort is based on estimated hours. Tasks that require fewer hours contribute more to the final score. This highlights “quick wins,” which can be helpful for productivity and workload balancing.
 
-Based on how close the due date is
+Dependencies reflect whether a task blocks other tasks. A task with many dependents becomes more valuable to complete early, since it unlocks progress in multiple areas.
 
-Overdue tasks get additional weight
+All values are normalized so the score is not dominated by any single factor.
+After normalization, weights are applied depending on the selected strategy:
 
-Tasks due on weekends or holidays are treated as slightly more urgent
+Smart Balance: gives similar importance to urgency and importance while still considering effort and dependencies.
 
-Importance
+Fastest Wins: emphasizes low-effort tasks.
 
-User-assigned value (1–10)
+High Impact: heavily prioritizes importance.
 
-Higher importance increases the final score
+Deadline Driven: gives urgency the highest weight.
 
-Effort
+Circular dependencies are detected using depth-first search. When detected, the system flags the tasks for review.
 
-Tasks with fewer estimated hours gain a “quick win” advantage
+Overall, the scoring approach aims to balance short-term deadlines, long-term important work, quick wins, and dependency complexity.
 
-Dependencies
+3. Design Decisions
 
-Tasks that block other tasks receive a higher score
+Kept scoring logic independent from API endpoints for clarity and testing
 
-The algorithm normalizes these values and applies different weight combinations depending on the selected strategy:
+Used JSON fields for flexible dependency storage
 
-Smart Balance
+Added normalization to keep scores consistent
 
-Fastest Wins
+Introduced multiple scoring strategies for different working styles
 
-High Impact
+Included cycle detection for safety
 
-Deadline Driven
+Added minimal validation to prevent incorrect inputs
 
-Circular dependencies are automatically detected and highlighted.
-
-A simple learning/feedback system is included to slightly adjust weights when the user marks suggestions as helpful.
-
-4. Design Highlights
-
-Clear separation between scoring logic and API endpoints
-
-Frontend allows task input, bulk JSON input, and switching between strategies
-
-Visual dependency graph using Cytoscape.js
-
-Eisenhower Matrix view for urgency vs. importance
-
-GitHub Actions workflow added for unit test automation
-
-5. Time Spent
+4. Time Breakdown
 Task	Time
-Planning & algorithm design	~1 hr 30 min
-Backend endpoints	~45 min
+Algorithm design	~1 hr 30 min
+Backend API	~45 min
 Frontend UI	~35 min
 Bonus features	~1 hr 15 min
-Writing tests	~20 min
+Testing	~20 min
 Documentation	~20 min
-Repo setup + CI	~20 min
+Repo setup	~20 min
+5. Bonus Features Attempted
 
-Total: approx. 4.5 hours
+Dependency graph visualization
 
-6. Running Tests
-cd backend
-python -m unittest
+Weekend/holiday urgency adjustment
 
-7. Future Improvements
+Eisenhower Matrix view
 
-Add authentication and save tasks for each user
+Weight adjustment (learning system)
 
-Improve UI styling and responsiveness
+GitHub Actions automated testing
 
-More detailed feedback learning model
+6. Future Improvements
 
-Extend holiday detection with region-specific calendars
+Improve UI layout and visual design
 
-8. Project Structure
-backend/
-    manage.py
-    task_analyzer/
-    tasks/
-frontend/
-    index.html
-    styles.css
-    script.js
-docs/
-    assignment.pdf
-requirements.txt
-README.md
+Add login system and persistent task storage
+
+Provide more advanced weight-tuning
+
+Add automatic holiday calendar
+
+Add user-specific prioritization modes
